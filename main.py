@@ -42,10 +42,16 @@ def write_entry(line: str) -> None:
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(line)
+    with open(OUTPUT_PATH, "r", encoding="utf-8") as f:
+        written = f.read()
+    assert written == line, "written entry does not match"
+    assert 1 <= len(written) <= MAX_CHARS
 
 
 def main() -> None:
-    write_entry(build_line())
+    line = build_line()
+    write_entry(line)
+    print(f"Wrote {OUTPUT_PATH} ({len(line)} characters)")
 
 
 if __name__ == "__main__":
